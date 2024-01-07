@@ -1,0 +1,52 @@
+import { createContext, useContext, useState } from "react";
+import { StudentApi } from "../service/StudentApi";
+
+export const StateStudentContext = createContext({
+    user : {},
+    setUser : () => {},
+    
+    authenticated : false,
+    setAuthenticated : () => {},
+
+    login : (email,password) => {},
+    logout : () => {},
+})
+
+export function StudentContext({children}) {
+
+    const [user,setUser] = useState({});
+
+    const [authenticated,_setAuthenticated] = useState('true' === window.localStorage.getItem('AUTHENTICATED'));
+
+    const login = async (email,password) => {
+        await StudentApi.getCSRF();
+        return StudentApi.login(email,password);
+    }
+    const logout = () => {
+        setUser({});
+        setAuthenticated(false);
+    };
+
+    const setAuthenticated = (isAuthenticated) => {
+        _setAuthenticated(isAuthenticated);
+        window.localStorage.setItem('AUTHENTICATED',isAuthenticated);
+    }
+    
+    return  <>
+                <StateStudentContext.Provider value={{
+                    user,
+                    setUser,
+
+                    login, // hna t9der ila kant 3andi l valeur b nafss smiyet l prop tandiro ghi wehda   
+                    logout,
+                    
+                    authenticated,
+                    setAuthenticated
+                }}>
+                    {children}
+                </StateStudentContext.Provider>
+            </>
+}
+
+// hna transformina had context l une funct li tatweli b7al chi hook w hia li tanwliw n3ayto liha w njbdo mnha kolchi
+export const useStudentContext = () => useContext(StateStudentContext);
