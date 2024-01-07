@@ -9,4 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class StudentParent extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'firstname',
+        'lastname',
+        'date_of_birth',
+        'last_login_date',
+        'gender',
+        'email',
+        'phone',
+        'address',
+    ];
+
 }
