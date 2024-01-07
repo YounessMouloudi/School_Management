@@ -7,16 +7,14 @@ import { GaugeIcon } from 'lucide-react'
 import { Sidebar } from "./Administration/SideBare";
 import { ModeToggle } from "../components/mode-toggle";
 import { Login_Route } from "../router";
+import { AdminSidebar } from "./Administration/AdminSideBare";
 
 
-export function StudentDashboardLayout() {
+export function TeacherDashboardLayout() {
 
     const navigate = useNavigate();
 
     const [isLoading,setIsLoading] = useState(true);
-    /* hna drna had loading ghi 3la wahd défault li bssitte w li howa mnin kona f dashboard w tandiro lien dial login
-    kant tatban la page d login w mn ba3d tayrja3na l dashboard hit déja authentifié donc drna had loading bach 
-    wakha ndiro lien d login matbanch la page tban direct dashboard*/
 
     const {setUser,authenticated,setAuthenticated,logout} = useStudentContext(); 
 
@@ -27,10 +25,6 @@ export function StudentDashboardLayout() {
             setIsLoading(false);
 
             StudentApi.getUser().then( ({data}) => {
-                // console.log(data) 
-                /* hna data fiha ga3 les infos dial student mn ghir password hit 7na 7yednah f model 
-                   f => protected $hidden  => tema tadir ayi donné mabghitihach tji m3a data
-                */
 
                 setUser(data);
                 setAuthenticated(true);
@@ -74,13 +68,10 @@ export function StudentDashboardLayout() {
                     </div>
                 </header>
                 <hr />
-                {/* hna bghina n affichiw tableau f studentDashboard mais les données 3ndi hna alors khassni 
-                ndowz dakchi f context f outlet w nrécuprih f studentDashboard c'est pour ça ghadi ndiro un 
-                context li ghaykon général */}
                 <main className="container space-y-4 py-4">
                     <div className="flex">
                         <div className="w-100 md:w-1/4">
-                            <Sidebar/>
+                            <AdminSidebar/>
                         </div>
                         <div className="w-100 md:w-3/4">
                             <Outlet />

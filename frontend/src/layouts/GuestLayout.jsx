@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useStudentContext } from "../context/StudentContext";
 import { Home, LogIn } from 'lucide-react'
+import { Student_Dashboard_Route } from "../router";
 
 export function GuestLayout() {
 
@@ -11,9 +12,9 @@ export function GuestLayout() {
 
     useEffect(() => {
         if(context.authenticated) {
-            navigate('/student/dashboard');
+            navigate(Student_Dashboard_Route);
         }
-        
+
     },[])
 
     return  <>

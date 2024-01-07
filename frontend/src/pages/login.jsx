@@ -1,8 +1,8 @@
-import { StudentLogin} from "../components/Login/StudentLogin";
+import { UserLogin} from "../components/Login/UserLogin";
 
 export function Login() {
     
     return  <>
-                <StudentLogin/>
+                <UserLogin/>
             </>
 }

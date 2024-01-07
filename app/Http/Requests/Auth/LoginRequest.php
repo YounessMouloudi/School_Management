@@ -41,10 +41,18 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))
-            && !Auth::guard('admin')->attempt($this->only('email', 'password'), $this->boolean('remember'))
-            && !Auth::guard('teacher')->attempt($this->only('email', 'password'), $this->boolean('remember'))
-        ){
+        /* hna daba modifina login hit wlaw 3ndna bzf dial les authentications (admin et teacher) */
+        $guards = array_keys(config('auth.guards'));
+        $isLogged = false;
+
+        foreach ($guards as $guard) {
+            if(Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+                $isLogged = true;
+                break;
+            }
+        }
+
+        if (!$isLogged){
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

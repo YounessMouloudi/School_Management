@@ -7,9 +7,9 @@ import { GaugeIcon } from 'lucide-react'
 import { Sidebar } from "./Administration/SideBare";
 import { ModeToggle } from "../components/mode-toggle";
 import { Login_Route } from "../router";
+import { AdminSidebar } from "./Administration/AdminSideBare";
 
-
-export function StudentDashboardLayout() {
+export function AdminDashboardLayout() {
 
     const navigate = useNavigate();
 
@@ -27,11 +27,6 @@ export function StudentDashboardLayout() {
             setIsLoading(false);
 
             StudentApi.getUser().then( ({data}) => {
-                // console.log(data) 
-                /* hna data fiha ga3 les infos dial student mn ghir password hit 7na 7yednah f model 
-                   f => protected $hidden  => tema tadir ayi donné mabghitihach tji m3a data
-                */
-
                 setUser(data);
                 setAuthenticated(true);
                 
@@ -74,13 +69,10 @@ export function StudentDashboardLayout() {
                     </div>
                 </header>
                 <hr />
-                {/* hna bghina n affichiw tableau f studentDashboard mais les données 3ndi hna alors khassni 
-                ndowz dakchi f context f outlet w nrécuprih f studentDashboard c'est pour ça ghadi ndiro un 
-                context li ghaykon général */}
                 <main className="container space-y-4 py-4">
                     <div className="flex">
                         <div className="w-100 md:w-1/4">
-                            <Sidebar/>
+                            <AdminSidebar/>
                         </div>
                         <div className="w-100 md:w-3/4">
                             <Outlet />

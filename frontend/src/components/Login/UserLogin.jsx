@@ -11,25 +11,26 @@ import { Input } from "../ui/input"
 import { Loader } from "lucide-react"
 import { useStudentContext } from "../../context/StudentContext"
 import { useNavigate } from "react-router-dom"
+import { Admin_Dashboard_Route, Student_Dashboard_Route, Teacher_Dashboard_Route } from "../../router"
 
 const formSchema = z.object({
   email : z.string().email().min(2).max(50),
   password : z.string().min(8).max(50)
 })
 
-export function StudentLogin() {
+export function UserLogin() {
     
-    const {login,setAuthenticated,authenticated} = useStudentContext();
+    const {login,setAuthenticated} = useStudentContext();
 
     const navigate = useNavigate();
     
     const form = useForm({
         resolver: zodResolver(formSchema),
         
-        // defaultValues: {
-        //   email : "ali@gmail.com",
-        //   password : "aaaaaaaa",
-        // },
+        defaultValues: {
+          email : "",
+          password : "",
+        },
     })
 
     const {handleSubmit,setError,formState:{isSubmitting}} = form;
@@ -40,10 +41,22 @@ export function StudentLogin() {
             
             (value) => {
 
-                if(value.status === 204) {
-                    
+                if(value.status === 200) {
+                    const {role} = value.data.user;
+                    switch (role){
+                        case 'student':
+                            navigate(Student_Dashboard_Route);
+                            break;
+                        case 'admin':
+                            navigate(Admin_Dashboard_Route);
+                            break;
+                        case 'teacher':
+                            navigate(Teacher_Dashboard_Route);
+                            break;
+
+                    } 
+
                     setAuthenticated(true);
-                    navigate('/student/dashboard');
                 }
             }
         ).catch(
