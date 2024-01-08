@@ -32,7 +32,11 @@ return [
     |
     */
 
-    'guard' => ['web'],
+    'guard' => [],
+    /* hna supprimina mn l guard "web" bach ngolo l sanctum dima mnin tjik chi request chof ghi token ay bla mat9aleb
+       b l guard hit maghatl9a walo => ay bghina n7ededo l'accés l kol wahd l siteweb w les actions li ghaydir ay
+       plus de sécurité
+    */
 
     /*
     |--------------------------------------------------------------------------

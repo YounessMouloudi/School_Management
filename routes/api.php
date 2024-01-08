@@ -15,10 +15,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum,admin,teacher'])->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum','ability:student'])->group( function() {
+    
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
 
-Route::apiResources([
-    'parents' => StudentParentController::class,
-]);
+Route::middleware(['auth:sanctum','ability:admin'])->group( function() {
+
+    Route::apiResources([
+        'parents' => StudentParentController::class,
+    ]);
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+Route::middleware(['auth:sanctum','ability:teacher'])->group( function() {
+    
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+

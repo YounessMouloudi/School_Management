@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { StudentApi } from "../service/StudentApi";
 
+/* hna ayi state zdnaha aw fonction khass darori n3arfoha hna w mnin nbghiw nseftoha tandiroha f return Provider */ 
 export const StateStudentContext = createContext({
     user : {},
     setUser : () => {},
@@ -10,6 +11,8 @@ export const StateStudentContext = createContext({
 
     login : (email,password) => {},
     logout : () => {},
+
+    setToken : () => {}
 })
 
 export function StudentContext({children}) {
@@ -31,6 +34,10 @@ export function StudentContext({children}) {
         _setAuthenticated(isAuthenticated);
         window.localStorage.setItem('AUTHENTICATED',isAuthenticated);
     }
+
+    const setToken = (token) => {
+        window.localStorage.setItem('token',token);
+    }
     
     return  <>
                 <StateStudentContext.Provider value={{
@@ -41,7 +48,9 @@ export function StudentContext({children}) {
                     logout,
                     
                     authenticated,
-                    setAuthenticated
+                    setAuthenticated,
+
+                    setToken,
                 }}>
                     {children}
                 </StateStudentContext.Provider>

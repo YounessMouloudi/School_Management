@@ -20,7 +20,7 @@ const formSchema = z.object({
 
 export function UserLogin() {
     
-    const {login,setAuthenticated} = useStudentContext();
+    const {login,setAuthenticated,setToken} = useStudentContext();
 
     const navigate = useNavigate();
     
@@ -36,12 +36,16 @@ export function UserLogin() {
     const {handleSubmit,setError,formState:{isSubmitting}} = form;
     
     const onSubmit = async values => {
-        // const axios = axiosStudent.defaults // hada fih des donnnés dial navigator (headers,adapter,baseUrl,...)
+        // const axios = axiosClient.defaults // hada fih des donnnés dial navigator (headers,adapter,baseUrl,...)
         await login(values.email,values.password).then(
             
             (value) => {
 
                 if(value.status === 200) {
+
+                    setToken(value.data.token);
+                    setAuthenticated(true);
+
                     const {role} = value.data.user;
                     switch (role){
                         case 'student':
@@ -53,10 +57,8 @@ export function UserLogin() {
                         case 'teacher':
                             navigate(Teacher_Dashboard_Route);
                             break;
-
                     } 
 
-                    setAuthenticated(true);
                 }
             }
         ).catch(
