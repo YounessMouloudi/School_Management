@@ -17,6 +17,7 @@ class StudentParent extends Model
         'last_login_date',
         'gender',
         'email',
+        'password',
         'phone',
         'address',
     ];

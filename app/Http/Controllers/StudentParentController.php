@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateStudentParentRequest;
 use App\Http\Resources\StudentParentResource;
 use DateTime;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Hash;
 
 class StudentParentController extends Controller
 {
@@ -25,6 +26,7 @@ class StudentParentController extends Controller
     public function store(StoreStudentParentRequest $request)
     {
         $formFields = $request->validated();
+        $formFields['password'] = Hash::make($formFields['password']);
         $formFields['last_login_date'] = new DateTime();
         $parent = StudentParent::create($formFields);
         

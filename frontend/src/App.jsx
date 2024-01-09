@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { StudentContext } from './context/StudentContext'
 import { ThemeProvider } from './components/theme-provider'
+import { Toaster } from './components/ui/toaster'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <RouterProvider router={router}/>
           </ThemeProvider>
+          <Toaster/>
         </StudentContext>
       </>
   )

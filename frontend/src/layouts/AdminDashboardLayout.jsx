@@ -69,12 +69,12 @@ export function AdminDashboardLayout() {
                     </div>
                 </header>
                 <hr />
-                <main className="container space-y-4 py-4">
+                <main className="container py-4">
                     <div className="flex">
-                        <div className="w-100 md:w-1/4">
+                        <div className="w-100 md:2/12 lg:w-1/5">
                             <AdminSidebar/>
                         </div>
-                        <div className="w-100 md:w-3/4">
+                        <div className="w-100 md:w-10/12 lg:w-4/5">
                             <Outlet />
                         </div>
                     </div>

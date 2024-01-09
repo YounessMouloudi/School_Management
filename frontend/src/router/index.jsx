@@ -12,10 +12,12 @@ import { AdminDashboard } from '../components/Admin/AdminDashboard'
 import { AdminDashboardLayout } from '../layouts/AdminDashboardLayout'
 import { TeacherDashboardLayout } from '../layouts/TeacherDashboardLayout'
 import { TeacherDashboard } from '../components/Teacher/TeacherDashboard'
+import { ManageParents } from '../components/Admin/ManageParents'
 
 export const Login_Route = '/login'; 
 export const Student_Dashboard_Route = '/student/dashboard'; 
 export const Admin_Dashboard_Route = '/admin/dashboard';
+export const Admin_Manage_Parents_Route = '/admin/manage-parents';
 export const Teacher_Dashboard_Route = '/teacher/dashboard'; 
 
 export const router = createBrowserRouter([
@@ -56,6 +58,10 @@ export const router = createBrowserRouter([
             {
                 path : Admin_Dashboard_Route,
                 element : <AdminDashboard/>
+            },
+            {
+                path : Admin_Manage_Parents_Route,
+                element : <ManageParents/>
             },
         ]
     },
