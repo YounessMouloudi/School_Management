@@ -4,7 +4,6 @@ import { useStudentContext } from "../context/StudentContext";
 import { StudentApi } from "../service/StudentApi";
 import { DropdownMenuBtn } from "./DropDownMenu";
 import { GaugeIcon } from 'lucide-react'
-import { Sidebar } from "./Administration/SideBare";
 import { ModeToggle } from "../components/mode-toggle";
 import { Login_Route } from "../router";
 import { AdminSidebar } from "./Administration/AdminSideBare";
@@ -70,11 +69,11 @@ export function AdminDashboardLayout() {
                 </header>
                 <hr />
                 <main className="container py-4">
-                    <div className="flex">
-                        <div className="w-100 md:2/12 lg:w-1/5">
+                    <div className="flex gap-5">
+                        <div className="w-100 md:2/12 border rounded-lg">
                             <AdminSidebar/>
                         </div>
-                        <div className="w-100 md:w-10/12 lg:w-4/5">
+                        <div className="w-100 md:w-10/12 border rounded-lg">
                             <Outlet />
                         </div>
                     </div>

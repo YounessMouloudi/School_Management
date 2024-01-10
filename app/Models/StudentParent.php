@@ -22,4 +22,10 @@ class StudentParent extends Model
         'address',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'last_login_date',
+    ];
+
 }

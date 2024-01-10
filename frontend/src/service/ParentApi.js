@@ -9,4 +9,8 @@ export const ParentApi = {
     create : async (payload) => {
         return await axiosClient.post('/api/parents',payload);
     },
+
+    all : async () => {
+        return await axiosClient.get('/api/parents');
+    },
 }
