@@ -1,5 +1,5 @@
 import { useStudentContext } from "../../context/StudentContext"
-import { AdminParentList } from "../Data-Table/parent/AdminParentList";
+import { AdminParentList } from "../Data-Table/AdminParentList";
 import { ParentCreateForm } from "../Forms/ParentCreateForm";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";

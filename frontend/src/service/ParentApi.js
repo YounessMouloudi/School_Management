@@ -9,7 +9,9 @@ export const ParentApi = {
     create : async (payload) => {
         return await axiosClient.post('/api/parents',payload);
     },
-
+    delete : async (id) => {
+        return await axiosClient.delete('/api/parents/'+id);
+    },
     all : async () => {
         return await axiosClient.get('/api/parents');
     },

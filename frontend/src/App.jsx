@@ -4,7 +4,9 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { StudentContext } from './context/StudentContext'
 import { ThemeProvider } from './components/theme-provider'
-import { Toaster } from './components/ui/toaster'
+import { Toaster } from './components/ui/sonner'
+// import { Toaster } from './components/ui/toaster'
+
 
 function App() {
 
