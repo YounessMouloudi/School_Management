@@ -1,35 +1,44 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { Button } from "../../ui/button";
+import { DataTableColumnHeader } from "../DataTableColumnHeader";
 
 export const AdminParentColumns = [
     {
       accessorKey: "id", // hna had accessorKey howa l value li ghatjina mn BD
       //   header: "#ID",     // hna hadi hia smia dial column li ghat afficha f table
       header: ({ column }) => {  // hadi button dial Sorting
-        const isAsc = column.getIsSorted() === "asc";
-        return (
-          <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
-            #ID
-            {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
-          </Button>
-        )
+        
+        // hna kona khdamin b hadi hia lewla aprés l9ina un compen li taydir hadchi kaml w li howa DataTableColumnHeader 
+        // const isAsc = column.getIsSorted() === "asc";
+        // return (
+        //   <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
+        //     #ID
+        //     {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
+        //   </Button>
+        // )
+
+        return <DataTableColumnHeader column={column} title="#ID" />
       },
     },
     {
       accessorKey: "firstname",
       header: ({ column }) => {
-        const isAsc = column.getIsSorted() === "asc";
-        return (
-          <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
-            FirstName
-            {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
-          </Button>
-        )
+        // const isAsc = column.getIsSorted() === "asc";
+        // return (
+        //   <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
+        //     FirstName
+        //     {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
+        //   </Button>
+        // )
+        
+        return <DataTableColumnHeader column={column} title="First Name" />
       },
     },
     {
       accessorKey: "lastname",
-      header: "LastName",
+      header: ({ column }) => {
+        return <DataTableColumnHeader column={column} title="Last Name" />
+      },
     },
     {
       accessorKey: "date_of_birth",
@@ -58,13 +67,7 @@ export const AdminParentColumns = [
     {
       accessorKey: "email",
       header: ({ column }) => {
-        const isAsc = column.getIsSorted() === "asc";
-        return (
-          <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
-            Email
-            {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
-          </Button>
-        )
+        return <DataTableColumnHeader column={column} title="Email" />
       },
 
     },
@@ -83,13 +86,8 @@ export const AdminParentColumns = [
     {
       accessorKey: "updated_at",
       header: ({ column }) => {
-        const isAsc = column.getIsSorted() === "asc";
-        return (
-          <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
-            Date Updated
-            {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
-          </Button>
-        )
+
+        return <DataTableColumnHeader column={column} title="Updated At" />
       },
       cell: ({ row }) => {
         const date =  row.getValue("updated_at");

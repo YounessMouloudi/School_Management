@@ -1,5 +1,5 @@
 import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable,
-  getFilteredRowModel,
+  getFilteredRowModel, getPaginationRowModel,
 } from "@tanstack/react-table"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
@@ -8,6 +8,8 @@ import { useState } from "react"
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DataTableViewOptions } from "./DataTableViewOptions";
+import { DataTablePagination } from "./DataTablePagination";
 
 
 export function DataTable ({columns,data,}) {
@@ -27,6 +29,7 @@ export function DataTable ({columns,data,}) {
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
       columnFilters,
@@ -43,7 +46,8 @@ export function DataTable ({columns,data,}) {
               }
               className="max-w-sm"
             />
-            <DropdownMenu>
+            {/* hadi 7aydnaha w 3awddnaha b DataTableViewOptions */}
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="ml-auto">
                   Columns
@@ -70,7 +74,9 @@ export function DataTable ({columns,data,}) {
                     )
                   })}
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
+
+            <DataTableViewOptions table={table} />
           </div>
           <div className="rounded-md border">
             <Table>
@@ -115,6 +121,9 @@ export function DataTable ({columns,data,}) {
                 )}
               </TableBody>
             </Table>
+          </div>
+          <div className="mt-3 mb-1">
+            <DataTablePagination table={table} />
           </div>
         </>
   )

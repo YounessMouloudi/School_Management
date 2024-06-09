@@ -42,7 +42,10 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         /* hna daba modifina login hit wlaw 3ndna bzf dial les authentications (admin et teacher) */
-        $guards = array_keys(config('auth.guards'));
+        // $guards = array_keys(config('auth.guards'));
+        
+        // hna modifina l guards hit galik kant tat3tina chi erreur f li 9bal wakha ana kant khdama 3andi normal
+        $guards = ['web','admin','teacher']; 
         $isLogged = false;
 
         foreach ($guards as $guard) {
