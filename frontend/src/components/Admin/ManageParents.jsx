@@ -1,6 +1,7 @@
 import { useStudentContext } from "../../context/StudentContext"
+import { ParentApi } from "../../service/ParentApi";
 import { AdminParentList } from "../Data-Table/AdminParentList";
-import { ParentCreateForm } from "../Forms/ParentCreateForm";
+import { ParentForm } from "../Forms/ParentForm";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -49,7 +50,7 @@ export function ManageParents() {
                                                 <TabsContent value="add_parent">
                                                     <Separator className="my-4"/>
                                                     <div className="space-y-1">
-                                                        <ParentCreateForm/>
+                                                        <ParentForm handleSubmitForm={(values) => ParentApi.create(values)} />
                                                     </div>
                                                 </TabsContent>
                                             </Tabs>

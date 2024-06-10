@@ -4,11 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from "../ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
-import { Loader } from "lucide-react"
-import { ParentApi } from "../../service/ParentApi"
+import { Loader, XCircleIcon } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { Textarea } from "../ui/textarea"
-import { useToast } from "../ui/use-toast"
+import { toast } from "sonner"
+import { ParentApi } from "../../service/ParentApi"
 
 const formSchema = z.object({
   firstname : z.string().min(3).max(50),
@@ -21,12 +21,12 @@ const formSchema = z.object({
   address : z.string().min(5).max(255),
 })
 
-export function ParentCreateForm() {
-        
+export function ParentForm({handleSubmitForm,values}) {
+    
     const form = useForm({
         resolver: zodResolver(formSchema),
         
-        defaultValues: {
+        defaultValues: values || {
           firstname : "",
           lastname : "",
           date_of_birth : "",
@@ -38,26 +38,36 @@ export function ParentCreateForm() {
         },
     })
 
-    const { toast } = useToast();
+    // const { toast } = useToast();
+    
+    const isUpdate = values !== undefined;
 
     const {handleSubmit,setError,formState:{isSubmitting},reset} = form;
     
     const onSubmit = async values => {
 
-        await ParentApi.create(values).then(
+        const loader = toast.loading( isUpdate ? "Updating in progress." : "Adding in progress.");
+
+        await handleSubmitForm(values).then(
             
             ({status,data}) => {
-                if(status === 201) {
+                if(status === 200) {
                     console.log(data);
-
-                    toast({
-                        title: "Success",
-                        description: "Parent Created Successfully",
+                    toast.success(data.message,{
+                        duration : 3000,
                         style : {
-                            backgroundColor: '#16a34a',
-                            color : '#fff'
+                            backgroundColor: '#15803d',
+                            color: '#ffffff'
                         }
                     });
+                    // toast({
+                    //     title: "Success",
+                    //     description: data.message,
+                    //     style : {
+                    //         backgroundColor: '#16a34a',
+                    //         color : '#fff'
+                    //     }
+                    // });
                     reset();
                 }
             }
@@ -68,20 +78,30 @@ export function ParentCreateForm() {
                     setError(fieldName,{
                         "message" : errorMessages.join()
                     })
-                    toast({
-                        variant: "destructive",
-                        title: "Error",
-                        description: "Parent already exists",
+                    toast("Parent already exists",{
+                        duration : 3000,
+                        icon : <XCircleIcon/>,
+                        style : {
+                            backgroundColor: '#b91c1c',
+                            color: '#ffffff'
+                        }
                     });
+                    // toast({
+                    //     variant: "destructive",
+                    //     title: "Error",
+                    //     description: "Parent already exists",
+                    // });
                 });
 
             }
-        );
+        ).finally(() => {
+            toast.dismiss(loader);
+        });
     }
 
     return  <>
                 <Form {...form}>
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                    <form onSubmit={handleSubmit(onSubmit)} className="">
                         <FormField control={form.control} name="firstname" render={({field}) => (
                             <FormItem>
                                 <FormLabel>FirstName</FormLabel>
@@ -110,11 +130,11 @@ export function ParentCreateForm() {
                             </FormItem>
                         )}/>
                         <FormField control={form.control} name="gender" render={({field}) => (
-                            <FormItem>
+                            <FormItem className="mb-0.5">
                                 <FormLabel>Gender</FormLabel>
                                 <FormControl>
                                     <RadioGroup onValueChange={field.onChange} defaultValue={field.value}
-                                        className="flex flex-col space-y-1">
+                                        className="flex flex-row space-x-1">
                                         <FormItem className="flex items-center space-x-3 space-y-0">
                                             <FormControl>
                                                 <RadioGroupItem value="m"/>
@@ -160,16 +180,18 @@ export function ParentCreateForm() {
                             </FormItem>
                         )}/>
                         <FormField control={form.control} name="address" render={({field}) => (
-                            <FormItem>
+                            <FormItem className="mb-3">
                                 <FormLabel>Address</FormLabel>
                                 <FormControl>
-                                    <Textarea placeholder="Address" className="resize-none" {...field}/>
+                                    <Textarea placeholder="Address" className={isUpdate ? "resize-none min-h-min h-10" : "resize-none"}
+                                     {...field}/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}/>
                         <Button disabled={isSubmitting} type="submit">
-                            {isSubmitting && <Loader className="me-2 animate-spin"/> }Create
+                            {isSubmitting && <Loader className="me-2 animate-spin" /> }
+                            {isUpdate ? "Update" : "Create"}
                         </Button>
                     </form>
                 </Form>

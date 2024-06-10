@@ -28,4 +28,10 @@ class StudentParent extends Model
         'last_login_date',
     ];
 
+    /* hna zadna had casts bach nraddo lforma dial date b7al li drna hit mnin kona tanbghiw ndiro update 
+    date kan tayji mn BD avec h:m:s w mataytaffichach lina f input date alors hadi ghat7al lmochkil */
+    protected $casts = [
+        'date_of_birth' => 'date:Y-m-d',
+    ];
+
 }

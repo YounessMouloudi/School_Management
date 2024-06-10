@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { ParentApi } from "../../service/ParentApi";
 import { DataTable } from "./DataTable";
 
-import { AlertCircleIcon, ArrowDown, ArrowUp, CheckCircleIcon, Trash, Trash2Icon, XCircle, XCircleIcon } from "lucide-react";
+import { ArrowDown, ArrowUp, PencilIcon, Trash2Icon, XCircleIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { DataTableColumnHeader } from "./DataTableColumnHeader";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, 
     AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 import { toast } from "sonner";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { ParentForm } from "../Forms/ParentForm";
 
 export function AdminParentList() {
 
@@ -115,66 +117,86 @@ export function AdminParentList() {
             // console.log(data);
 
             const {id,firstname,lastname} = row.original
+            const [openUpdateForm,setOpenUpdateForm] = useState(false);
 
             return (
-            <>
-                <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button variant={"destructive"}> <Trash2Icon size={20}/></Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                    <AlertDialogTitle>
-                        Are you absolutely sure to delete the student 
-                        <span className={'font-bold'}> {firstname} {lastname}</span> ?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the student and remove all 
-                        associated data.
-                    </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={ async () => {
-                        
-                        const deletingLoader = toast.loading("Deleting in progress.");
+                <div className="flex gap-x-3">
+                    <Sheet open={openUpdateForm} onOpenChange={setOpenUpdateForm}>
+                        <SheetTrigger asChild>
+                            <Button className="bg-blue-600"><PencilIcon size={20}/></Button>
+                        </SheetTrigger>
+                        <SheetContent className="py-2">
+                            <SheetHeader>
+                                <SheetTitle>Update Parent :</SheetTitle>
+                            </SheetHeader>
+                            <ParentForm values={row.original} 
+                                handleSubmitForm={(values) => {
+                                    const promise =  ParentApi.update(id,values);
+                                    promise.then(() => {
+                                    setOpenUpdateForm(false);
+                                    getParent();
+                                    });
+                                    return promise;
+                                }}
+                            />
+                        </SheetContent>
+                    </Sheet>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant={"destructive"}> <Trash2Icon size={20}/></Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>
+                                Are you absolutely sure to delete the student 
+                                <span className={'font-bold'}> {firstname} {lastname}</span> ?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete the student and remove all 
+                                associated data.
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={ async () => {
+                                
+                                const deletingLoader = toast.loading("Deleting in progress.");
 
-                        const {status} = await ParentApi.delete(id);
-                                                
-                        if(status == "200") {
-                            toast.dismiss(deletingLoader);
+                                const {status} = await ParentApi.delete(id);
+                                                        
+                                if(status == "200") {
+                                    toast.dismiss(deletingLoader);
 
-                            setData( data.filter((parent) => parent.id !== id));
-                            toast.success("Success ",{
-                                description : <span className="text-white font-medium">
-                                    {`Parent " ${firstname} ${lastname} " Deleted Successfully`}
-                                </span>,
-                                icon : <CheckCircleIcon/>,
-                                duration : 3000,
-                                style : {
-                                    backgroundColor: '#15803d',
-                                    color: '#ffffff'
+                                    setData( data.filter((parent) => parent.id !== id));
+                                    toast.success("Success ",{
+                                        description : <span className="text-white font-medium">
+                                            {`Parent " ${firstname} ${lastname} " Deleted Successfully`}
+                                        </span>,
+                                        duration : 3000,
+                                        style : {
+                                            backgroundColor: '#15803d',
+                                            color: '#ffffff'
+                                        }
+                                    });
                                 }
-                            });
-                        }
-                        else {
-                            toast.error("Error ",{
-                                description : <span className="text-white font-medium">Failed To Delete This Parent</span>,
-                                icon : <XCircleIcon/>,
-                                duration : 3000,
-                                style : {
-                                    backgroundColor: '#b91c1c',
-                                    color: '#ffffff'
+                                else {
+                                    toast("Error ",{
+                                        description : <span className="text-white font-medium">Failed To Delete This Parent</span>,
+                                        icon : <XCircleIcon/>,
+                                        duration : 3000,
+                                        style : {
+                                            backgroundColor: '#b91c1c',
+                                            color: '#ffffff'
+                                        }
+                                    });
                                 }
-                            });
-                        }
-                    }}>
-                        Delete
-                    </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-                </AlertDialog>
-            </>
+                            }}>
+                                Delete
+                            </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
             )
         },
         },
@@ -182,13 +204,15 @@ export function AdminParentList() {
 
     const [data,setData] = useState([]);
 
-    useEffect(() => {
-        
+    const getParent = () => {
         ParentApi.all().then( ({data}) => {
             // console.log(data.data);
             setData(data.data);
         });
+    } 
 
+    useEffect(() => {
+        getParent()
     },[])
 
     return  <>

@@ -30,8 +30,6 @@ class StudentParentController extends Controller
         $formFields['last_login_date'] = new DateTime();
         $parent = StudentParent::create($formFields);
         
-        return new StudentParentResource($parent); 
-
         /* hna drna had resource bach nraj3o les données l api 9bal mayraj3o lina qu'a réponse w values 3adiyin
         had resource tayssla7 bach anak tatmodifié f structure dial hadok les données li tssefto par ex:
             - njibo ghi les données li bghina ybano (name,age,date)
@@ -42,6 +40,17 @@ class StudentParentController extends Controller
         hadok 3amrhom ybano ila la drnahom f fillable
         w had resource n9adro nsta3mloha hna f store aw f update aw delete
         */
+
+        // hna kona tanraj3o direct resource db modifina structure w ghanraj3o json 
+        // return new StudentParentResource($parent); 
+
+        $response = new StudentParentResource($parent);
+        
+        return response()->json([
+            'parent' => $response,
+            'message' => __("Parent Created Successfully")
+        ]);
+        
     }
 
     /**
@@ -55,9 +64,17 @@ class StudentParentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStudentParentRequest $request, StudentParent $studentParent)
-    {
-        //
+    public function update(UpdateStudentParentRequest $request, StudentParent $parent)
+    {   
+        $formFields = $request->validated();
+        $formFields['password'] = Hash::make($formFields['password']);
+        $parent->update($formFields);
+
+        return response()->json([
+            'parent' => $parent,
+            'message' => __("Parent Updated Successfully")
+        ]);
+
     }
 
     /**
