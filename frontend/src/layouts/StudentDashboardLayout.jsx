@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useStudentContext } from "../context/StudentContext";
-import { StudentApi } from "../service/StudentApi";
+import { UserApi } from "../service/UserApi";
 import { DropdownMenuBtn } from "./DropDownMenu";
 import { GaugeIcon } from 'lucide-react'
 import { Sidebar } from "./Administration/SideBare";
@@ -26,7 +26,7 @@ export function StudentDashboardLayout() {
             
             setIsLoading(false);
 
-            StudentApi.getUser().then( ({data}) => {
+            UserApi.getUser().then( ({data}) => {
                 // console.log(data) 
                 /* hna data fiha ga3 les infos dial student mn ghir password hit 7na 7yednah f model 
                    f => protected $hidden  => tema tadir ayi donné mabghitihach tji m3a data

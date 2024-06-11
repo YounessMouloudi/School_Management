@@ -18,7 +18,8 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $guards = array_keys(config('auth.guards'));
+        // $guards = array_keys(config('auth.guards'));
+        $guards = ['web','teacher','parent','admin'];
         $user = null;
         foreach ($guards as $guard) {
 
@@ -55,7 +56,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): Response
     {
-        $guards = array_keys(config('auth.guards'));
+        $guards = ['web','teacher','parent','admin'];
         $user = null;
         foreach ($guards as $guard) {
 

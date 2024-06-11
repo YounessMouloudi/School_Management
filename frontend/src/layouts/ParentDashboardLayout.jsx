@@ -5,36 +5,29 @@ import { UserApi } from "../service/UserApi";
 import { DropdownMenuBtn } from "./DropDownMenu";
 import { GaugeIcon } from 'lucide-react'
 import { ModeToggle } from "../components/mode-toggle";
-import { Login_Route, redirectToDashboard } from "../router";
-import { AdminSidebar } from "./Administration/AdminSideBare";
+import { Login_Route } from "../router";
+import { Sidebar } from "./Administration/SideBare";
 
-export function AdminDashboardLayout() {
+
+export function ParentDashboardLayout() {
 
     const navigate = useNavigate();
 
     const [isLoading,setIsLoading] = useState(true);
-    /* hna drna had loading ghi 3la wahd défault li bssitte w li howa mnin kona f dashboard w tandiro lien dial login
-    kant tatban la page d login w mn ba3d tayrja3na l dashboard hit déja authentifié donc drna had loading bach 
-    wakha ndiro lien d login matbanch la page tban direct dashboard*/
 
     const {setUser,authenticated,setAuthenticated,logout} = useStudentContext(); 
 
     useEffect( () => {
-        
-        if(authenticated === true) {
 
+        if(authenticated === true) {
+            
             setIsLoading(false);
 
             UserApi.getUser().then( ({data}) => {
-                // hadi darnaha bach ila chi wahd machi admin bgha ydkhol l chi page dial admin maykhalihch
-                const {role} = data;
-                
-                if(role !== "admin") {
-                    navigate(redirectToDashboard(role));
-                }
 
                 setUser(data);
-                setAuthenticated(true);    
+                setAuthenticated(true);
+                
             })
             .catch(() => {
                 logout();
@@ -74,12 +67,12 @@ export function AdminDashboardLayout() {
                     </div>
                 </header>
                 <hr />
-                <main className="container py-4">
-                    <div className="flex gap-5">
-                        <div className="w-100 md:2/12 border rounded-lg">
-                            <AdminSidebar/>
+                <main className="container space-y-4 py-4">
+                    <div className="flex">
+                        <div className="w-100 md:w-1/4">
+                            <Sidebar/>
                         </div>
-                        <div className="w-100 md:w-10/12 border rounded-lg">
+                        <div className="w-100 md:w-3/4">
                             <Outlet />
                         </div>
                     </div>

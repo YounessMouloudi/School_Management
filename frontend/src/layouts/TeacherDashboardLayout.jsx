@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useStudentContext } from "../context/StudentContext";
-import { StudentApi } from "../service/StudentApi";
+import { UserApi } from "../service/UserApi";
 import { DropdownMenuBtn } from "./DropDownMenu";
 import { GaugeIcon } from 'lucide-react'
-import { Sidebar } from "./Administration/SideBare";
 import { ModeToggle } from "../components/mode-toggle";
 import { Login_Route } from "../router";
 import { AdminSidebar } from "./Administration/AdminSideBare";
@@ -24,7 +23,7 @@ export function TeacherDashboardLayout() {
             
             setIsLoading(false);
 
-            StudentApi.getUser().then( ({data}) => {
+            UserApi.getUser().then( ({data}) => {
 
                 setUser(data);
                 setAuthenticated(true);

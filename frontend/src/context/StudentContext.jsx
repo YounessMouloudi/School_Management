@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { StudentApi } from "../service/StudentApi";
+import { UserApi } from "../service/UserApi";
 
 /* hna ayi state zdnaha aw fonction khass darori n3arfoha hna w mnin nbghiw nseftoha tandiroha f return Provider */ 
 export const StateStudentContext = createContext({
@@ -22,8 +22,8 @@ export function StudentContext({children}) {
     const [authenticated,_setAuthenticated] = useState('true' === window.localStorage.getItem('AUTHENTICATED'));
 
     const login = async (email,password) => {
-        await StudentApi.getCSRF();
-        return StudentApi.login(email,password);
+        await UserApi.getCSRF();
+        return UserApi.login(email,password);
     }
     const logout = () => {
         setUser({});

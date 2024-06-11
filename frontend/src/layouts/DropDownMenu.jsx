@@ -30,7 +30,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { StudentApi } from "../service/StudentApi";
+import { UserApi } from "../service/UserApi";
 import { useNavigate } from "react-router-dom";
 import { useStudentContext } from "../context/StudentContext";
 import { Login_Route } from "../router";
@@ -42,7 +42,7 @@ export function DropdownMenuBtn() {
     const {logout,user} = useStudentContext(); 
     
     const logoutBtn = () => {
-        StudentApi.logout().then(() => {
+        UserApi.logout().then(() => {
             logout();
             navigate(Login_Route);
         });
@@ -51,7 +51,7 @@ export function DropdownMenuBtn() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button><User className="mr-2 h-4 w-4"/>{user.name ? user.name : user.firstname}</Button>
+          <Button><User className="mr-2 h-4 w-4"/>{user.name || user.firstname}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>

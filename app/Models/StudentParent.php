@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class StudentParent extends Model
+class StudentParent extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'firstname',
@@ -34,4 +37,9 @@ class StudentParent extends Model
         'date_of_birth' => 'date:Y-m-d',
     ];
 
+    protected $appends = ['role'];
+
+    public function getRoleAttribute() {
+        return 'parent';
+    }
 }

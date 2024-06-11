@@ -45,7 +45,7 @@ class LoginRequest extends FormRequest
         // $guards = array_keys(config('auth.guards'));
         
         // hna modifina l guards hit galik kant tat3tina chi erreur f li 9bal wakha ana kant khdama 3andi normal
-        $guards = ['web','admin','teacher']; 
+        $guards = ['web','teacher','parent','admin']; 
         $isLogged = false;
 
         foreach ($guards as $guard) {

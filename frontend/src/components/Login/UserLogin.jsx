@@ -11,7 +11,7 @@ import { Input } from "../ui/input"
 import { Loader } from "lucide-react"
 import { useStudentContext } from "../../context/StudentContext"
 import { useNavigate } from "react-router-dom"
-import { Admin_Dashboard_Route, Student_Dashboard_Route, Teacher_Dashboard_Route } from "../../router"
+import { Admin_Dashboard_Route, Parent_Dashboard_Route, Student_Dashboard_Route, Teacher_Dashboard_Route, redirectToDashboard } from "../../router"
 
 const formSchema = z.object({
   email : z.string().email().min(2).max(50),
@@ -47,17 +47,23 @@ export function UserLogin() {
                     setAuthenticated(true);
 
                     const {role} = value.data.user;
-                    switch (role){
-                        case 'student':
-                            navigate(Student_Dashboard_Route);
-                            break;
-                        case 'admin':
-                            navigate(Admin_Dashboard_Route);
-                            break;
-                        case 'teacher':
-                            navigate(Teacher_Dashboard_Route);
-                            break;
-                    } 
+                    // had navigate 3awdnaha blasst switch
+                    navigate(redirectToDashboard(role));
+
+                    // switch (role){
+                    //     case 'student':
+                    //         navigate(Student_Dashboard_Route);
+                    //         break;
+                    //     case 'admin':
+                    //         navigate(Admin_Dashboard_Route);
+                    //         break;
+                    //     case 'teacher':
+                    //         navigate(Teacher_Dashboard_Route);
+                    //         break;
+                    //     case 'parent':
+                    //         navigate(Parent_Dashboard_Route);
+                    //         break;
+                    // } 
 
                 }
             }

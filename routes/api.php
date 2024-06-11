@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware(['auth:sanctum','ability:student,admin,teacher,parent'])->group(static function(){
+
+    Route::get('/me', function (Request $request) {
+        return $request->user();
+    });
+
+});
 
 Route::middleware(['auth:sanctum','ability:student'])->group( function() {
     
@@ -28,9 +35,6 @@ Route::middleware(['auth:sanctum','ability:admin'])->group( function() {
         'parents' => StudentParentController::class,
     ]);
 
-    Route::get('/admin', function (Request $request) {
-        return $request->user();
-    });
 });
 
 // hna howa kayn dayr had route haka zayd l préfix w f Studentapi dayr '/api/admin'

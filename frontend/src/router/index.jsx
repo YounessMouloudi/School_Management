@@ -13,12 +13,29 @@ import { AdminDashboardLayout } from '../layouts/AdminDashboardLayout'
 import { TeacherDashboardLayout } from '../layouts/TeacherDashboardLayout'
 import { TeacherDashboard } from '../components/Teacher/TeacherDashboard'
 import { ManageParents } from '../components/Admin/ManageParents'
+import { ParentDashboardLayout } from '../layouts/ParentDashboardLayout'
+import { ParentDashboard } from '../components/Parent/ParentDashboard'
 
 export const Login_Route = '/login'; 
 export const Student_Dashboard_Route = '/student/dashboard'; 
 export const Admin_Dashboard_Route = '/admin/dashboard';
 export const Admin_Manage_Parents_Route = '/admin/manage-parents';
 export const Teacher_Dashboard_Route = '/teacher/dashboard'; 
+export const Parent_Dashboard_Route = '/parent/dashboard'; 
+
+export const redirectToDashboard = (roleType) => {
+        
+    switch (roleType){
+        case 'student':
+            return (Student_Dashboard_Route);
+        case 'admin':
+            return (Admin_Dashboard_Route);
+        case 'teacher':
+            return (Teacher_Dashboard_Route);
+        case 'parent':
+            return (Parent_Dashboard_Route);
+    } 
+}
 
 export const router = createBrowserRouter([
     {
@@ -71,6 +88,15 @@ export const router = createBrowserRouter([
             {
                 path : Teacher_Dashboard_Route,
                 element : <TeacherDashboard/>
+            },
+        ]
+    },
+    {
+        element : <ParentDashboardLayout/>,
+        children : [
+            {
+                path : Parent_Dashboard_Route,
+                element : <ParentDashboard/>
             },
         ]
     },
