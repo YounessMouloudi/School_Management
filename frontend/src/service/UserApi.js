@@ -13,7 +13,7 @@ export const UserApi = {
     logout : async () => {
         return await axiosClient.post('/logout');
     },
-
+    
     getUser : async () => {
         return await axiosClient.get('/api/me');
         

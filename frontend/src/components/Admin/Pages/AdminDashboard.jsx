@@ -1,4 +1,4 @@
-import { useStudentContext } from "../../context/StudentContext"
+import { useStudentContext } from "../../../context/StudentContext"
 
 export function AdminDashboard() {
 

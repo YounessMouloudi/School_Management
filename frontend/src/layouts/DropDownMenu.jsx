@@ -51,7 +51,7 @@ export function DropdownMenuBtn() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button><User className="mr-2 h-4 w-4"/>{user.name || user.firstname}</Button>
+          <Button><User className="mr-2 h-4 w-4"/>{user.firstname}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>

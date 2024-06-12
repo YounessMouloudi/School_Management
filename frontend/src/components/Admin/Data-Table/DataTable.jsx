@@ -5,9 +5,9 @@ import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable,
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
 
 import { useState } from "react"
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import { DataTableViewOptions } from "./DataTableViewOptions";
 import { DataTablePagination } from "./DataTablePagination";
 

@@ -9,7 +9,8 @@ export function StudentDashboard() {
                     <thead className="text-sm text-left dark:text-gray-400">
                         <tr className="text-xs uppercase bg-gray-100 rounded dark:bg-gray-800 ">
                             <th className="px-6 py-3">id</th>
-                            <th className="px-6 py-3">name</th>
+                            <th className="px-6 py-3">First Name</th>
+                            <th className="px-6 py-3">last Name</th>
                             <th className="px-6 py-3">email</th>
                             <th className="px-6 py-3">date</th>
                         </tr>
@@ -17,7 +18,8 @@ export function StudentDashboard() {
                     <tbody >
                         <tr className="bg-white text-left font-medium dark:bg-gray-800">
                             <th className="px-6 py-4 font-semibold whitespace">{user.id}</th>
-                            <td className="px-6 py-4">{user.name}</td>
+                            <td className="px-6 py-4">{user.firstname}</td>
+                            <td className="px-6 py-4">{user.lastname}</td>
                             <td className="px-6 py-4">{user.email}</td>
                             <td className="px-6 py-4">{user.created_at}</td>
                         </tr>

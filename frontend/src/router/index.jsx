@@ -8,23 +8,25 @@ import { Layout } from '../layouts/layout'
 import { GuestLayout } from '../layouts/GuestLayout'
 import { StudentDashboardLayout } from '../layouts/StudentDashboardLayout'
 import { StudentDashboard } from '../components/Student/StudentDashboard'
-import { AdminDashboard } from '../components/Admin/AdminDashboard'
+import { AdminDashboard } from '../components/Admin/Pages/AdminDashboard'
 import { AdminDashboardLayout } from '../layouts/AdminDashboardLayout'
 import { TeacherDashboardLayout } from '../layouts/TeacherDashboardLayout'
 import { TeacherDashboard } from '../components/Teacher/TeacherDashboard'
-import { ManageParents } from '../components/Admin/ManageParents'
+import { ManageParents } from '../components/Admin/Pages/ManageParents'
 import { ParentDashboardLayout } from '../layouts/ParentDashboardLayout'
 import { ParentDashboard } from '../components/Parent/ParentDashboard'
+import { ManageStudents } from '../components/Admin/Pages/ManageStudents'
 
 export const Login_Route = '/login'; 
 export const Student_Dashboard_Route = '/student/dashboard'; 
 export const Admin_Dashboard_Route = '/admin/dashboard';
 export const Admin_Manage_Parents_Route = '/admin/manage-parents';
+export const Admin_Manage_Students_Route = '/admin/manage-students';
 export const Teacher_Dashboard_Route = '/teacher/dashboard'; 
 export const Parent_Dashboard_Route = '/parent/dashboard'; 
 
 export const redirectToDashboard = (roleType) => {
-        
+
     switch (roleType){
         case 'student':
             return (Student_Dashboard_Route);
@@ -79,6 +81,10 @@ export const router = createBrowserRouter([
             {
                 path : Admin_Manage_Parents_Route,
                 element : <ManageParents/>
+            },
+            {
+                path : Admin_Manage_Students_Route,
+                element : <ManageStudents/>
             },
         ]
     },

@@ -1,7 +1,7 @@
 import { SlidersHorizontalIcon } from "lucide-react"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, 
-    DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
+    DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu"
  
 export function DataTableViewOptions({
   table,

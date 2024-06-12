@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react"
-import { Button } from "../ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Button } from "../../ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../ui/select"
   
 export function DataTablePagination({
     table,

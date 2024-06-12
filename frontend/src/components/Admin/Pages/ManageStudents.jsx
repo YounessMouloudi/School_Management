@@ -1,12 +1,12 @@
-import { useStudentContext } from "../../context/StudentContext"
-import { ParentApi } from "../../service/ParentApi";
-import { AdminParentList } from "../Data-Table/AdminParentList";
-import { ParentForm } from "../Forms/ParentForm";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { Separator } from "../ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { useStudentContext } from "../../../context/StudentContext"
+import { StudentApi } from "../../../service/StudentApi";
+import { AdminStudentList } from "../Data-Table/AdminStudentList";
+import { StudentForm } from "../Forms/StudentForm";
+import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
+import { Separator } from "../../ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 
-export function ManageParents() {
+export function ManageStudents() {
 
     const {user} = useStudentContext();
     
@@ -18,22 +18,22 @@ export function ManageParents() {
                                 <div className="grid">
                                     <div className="col-span-3 lg:col-span-4">
                                         <div className="h-full py-6 px-4">
-                                            <Tabs defaultValue="parents_list" className="h-full space-y-6">
+                                            <Tabs defaultValue="students_list" className="h-full space-y-6">
                                                 <div className="space-between flex items-center">
                                                     <TabsList>
-                                                        <TabsTrigger value="parents_list" className="relative">
-                                                            Parents
+                                                        <TabsTrigger value="students_list" className="relative">
+                                                            Students
                                                         </TabsTrigger>
-                                                        <TabsTrigger value="add_parent">
-                                                            Add new parent
+                                                        <TabsTrigger value="add_student">
+                                                            Add New Student
                                                         </TabsTrigger>
                                                     </TabsList>
                                                 </div>
-                                                <TabsContent value="parents_list" className="border-none p-0 outline-none">
+                                                <TabsContent value="students_list" className="border-none p-0 outline-none">
                                                     <div className="flex items-center justify-between">
                                                         <div className="space-y-1">
                                                             <h2 className="text-2xl font-semibold tracking-tight">
-                                                                All parents
+                                                                All Students
                                                             </h2>
                                                         </div>
                                                     </div>
@@ -41,16 +41,16 @@ export function ManageParents() {
                                                     <div className="relative">
                                                         <ScrollArea>
                                                             <div className="">
-                                                                <AdminParentList/>
+                                                                <AdminStudentList/>
                                                             </div>
                                                             <ScrollBar orientation="horizontal"/>
                                                         </ScrollArea>
                                                     </div>
                                                 </TabsContent>
-                                                <TabsContent value="add_parent">
+                                                <TabsContent value="add_student">
                                                     <Separator className="my-4"/>
                                                     <div className="space-y-1">
-                                                        <ParentForm handleSubmitForm={(values) => ParentApi.create(values)} />
+                                                        <StudentForm handleSubmitForm={(values) => StudentApi.create(values)} />
                                                     </div>
                                                 </TabsContent>
                                             </Tabs>

@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils"
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator,
-    DropdownMenuTrigger } from "../ui/dropdown-menu"
+    DropdownMenuTrigger } from "../../ui/dropdown-menu"
 
 import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon, EyeOffIcon } from "lucide-react"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
     
 export function DataTableColumnHeader({
     column,

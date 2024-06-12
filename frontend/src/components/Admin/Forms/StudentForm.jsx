@@ -1,14 +1,15 @@
 import * as z from "zod"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from "../ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Input } from "../ui/input"
+import { Button } from "../../ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form"
+import { Input } from "../../ui/input"
 import { Loader, XCircleIcon } from "lucide-react"
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { Textarea } from "../ui/textarea"
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group"
 import { toast } from "sonner"
-import { ParentApi } from "../../service/ParentApi"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../ui/select"
+import { useEffect, useState } from "react"
+import { ParentApi } from "../../../service/ParentApi"
 
 const formSchema = z.object({
   firstname : z.string().min(3).max(50),
@@ -17,30 +18,25 @@ const formSchema = z.object({
   gender : z.string().max(1),
   email : z.string().email().min(3).max(50),
   password : z.string().min(8).max(50),
-  phone : z.string().min(10).max(10),
-  address : z.string().min(5).max(255),
+  blood_type : z.string(),
+  student_parent_id : z.string().max(10),
 })
 
-export function ParentForm({handleSubmitForm,values}) {
+export function StudentForm({handleSubmitForm,values}) {
     
     const form = useForm({
         resolver: zodResolver(formSchema),
         
-        defaultValues: values || {
-          firstname : "",
-          lastname : "",
-          date_of_birth : "",
-          gender : "",
-          email : "",
-          password : "",
-          phone : "",
-          address : "",
-        },
+        defaultValues: values || {},
     })
-
-    // const { toast } = useToast();
+    
+    const [parents,setParents] = useState([]);
     
     const isUpdate = values !== undefined;
+
+    useEffect(() =>{
+        ParentApi.all(['id','firstname','lastname']).then(({data}) => setParents(data.data));
+    },[]);
 
     const {handleSubmit,setError,formState:{isSubmitting},reset} = form;
     
@@ -60,14 +56,6 @@ export function ParentForm({handleSubmitForm,values}) {
                             color: '#ffffff'
                         }
                     });
-                    // toast({
-                    //     title: "Success",
-                    //     description: data.message,
-                    //     style : {
-                    //         backgroundColor: '#16a34a',
-                    //         color : '#fff'
-                    //     }
-                    // });
                     reset();
                 }
             }
@@ -78,7 +66,7 @@ export function ParentForm({handleSubmitForm,values}) {
                     setError(fieldName,{
                         "message" : errorMessages.join()
                     })
-                    toast("Parent already exists",{
+                    toast("Error in Form",{
                         duration : 3000,
                         icon : <XCircleIcon/>,
                         style : {
@@ -86,11 +74,6 @@ export function ParentForm({handleSubmitForm,values}) {
                             color: '#ffffff'
                         }
                     });
-                    // toast({
-                    //     variant: "destructive",
-                    //     title: "Error",
-                    //     description: "Parent already exists",
-                    // });
                 });
 
             }
@@ -112,7 +95,7 @@ export function ParentForm({handleSubmitForm,values}) {
                             </FormItem>
                         )}/>
                         <FormField control={form.control} name="lastname" render={({field}) => (
-                            <FormItem>
+                            <FormItem >
                                 <FormLabel>LastName</FormLabel>
                                 <FormControl>
                                     <Input placeholder="LastName" {...field} />
@@ -130,7 +113,7 @@ export function ParentForm({handleSubmitForm,values}) {
                             </FormItem>
                         )}/>
                         <FormField control={form.control} name="gender" render={({field}) => (
-                            <FormItem className="mb-0.5">
+                            <FormItem className="mb-1">
                                 <FormLabel>Gender</FormLabel>
                                 <FormControl>
                                     <RadioGroup onValueChange={field.onChange} defaultValue={field.value}
@@ -152,6 +135,42 @@ export function ParentForm({handleSubmitForm,values}) {
                                 <FormMessage />
                             </FormItem>
                         )}/>
+                        <FormField control={form.control} name="blood_type" render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Blood Type</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value ? field.value : ""}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select Blood Type"/>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {["O-","O+","A-","A+","B-","B+","AB-","AB+"].map((bloodType,key) => 
+                                        <SelectItem key={key} value={bloodType}>{bloodType}</SelectItem>)
+                                        }
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
+                        <FormField control={form.control} name="student_parent_id" render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Parent</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value ? field.value : ""}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select Parent" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {parents.map((parent,key) => 
+                                        <SelectItem key={key} value={parent.id.toString()}>{parent.firstname} {parent.lastname}</SelectItem>)
+                                        }
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}/>
                         <FormField control={form.control} name="email" render={({field}) => (
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
@@ -162,29 +181,10 @@ export function ParentForm({handleSubmitForm,values}) {
                             </FormItem>
                         )}/>
                         <FormField control={form.control} name="password" render={({field}) => (
-                            <FormItem>
+                            <FormItem className="mb-2">
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
                                     <Input type={'password'} placeholder="password" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}/>
-                        <FormField control={form.control} name="phone" render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Phone</FormLabel>
-                                <FormControl>
-                                    <Input type={'tel'} placeholder="Phone" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}/>
-                        <FormField control={form.control} name="address" render={({field}) => (
-                            <FormItem className="mb-3">
-                                <FormLabel>Address</FormLabel>
-                                <FormControl>
-                                    <Textarea placeholder="Address" className={isUpdate ? "resize-none min-h-min h-10" : "resize-none"}
-                                     {...field}/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

@@ -1,33 +1,24 @@
 import { useEffect, useState } from "react";
-import { ParentApi } from "../../service/ParentApi";
+import { ParentApi } from "../../../service/ParentApi";
 import { DataTable } from "./DataTable";
 
 import { ArrowDown, ArrowUp, PencilIcon, Trash2Icon, XCircleIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { DataTableColumnHeader } from "./DataTableColumnHeader";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, 
-    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog";
 import { toast } from "sonner";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
-import { ParentForm } from "../Forms/ParentForm";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../../ui/sheet";
+import { StudentApi } from "../../../service/StudentApi";
+import { StudentForm } from "../Forms/StudentForm";
 
-export function AdminParentList() {
+export function AdminStudentList() {
 
-    // hna jbna AdminParentColumns hna hit kona dayrinha f comp bo7edha
-    const AdminParentColumns = [
+    const AdminStudentColumns = [
         {
         accessorKey: "id", // hna had accessorKey howa l value li ghatjina mn BD
         //   header: "#ID",     // hna hadi hia smia dial column li ghat afficha f table
         header: ({ column }) => {  // hadi button dial Sorting
-            
-            // hna kona khdamin b hadi hia lewla aprés l9ina un compen li taydir hadchi kaml w li howa DataTableColumnHeader 
-            // const isAsc = column.getIsSorted() === "asc";
-            // return (
-            //   <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
-            //     #ID
-            //     {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
-            //   </Button>
-            // )
 
             return <DataTableColumnHeader column={column} title="#ID" />
         },
@@ -35,14 +26,6 @@ export function AdminParentList() {
         {
         accessorKey: "firstname",
         header: ({ column }) => {
-            // const isAsc = column.getIsSorted() === "asc";
-            // return (
-            //   <Button className="px-1" variant="ghost" onClick={() => column.toggleSorting(isAsc)}>
-            //     FirstName
-            //     {isAsc ? <ArrowUp className="ml-1 h-4 w-4"/> : <ArrowDown className="ml-1 h-4 w-4"/>} 
-            //   </Button>
-            // )
-
             return <DataTableColumnHeader column={column} title="First Name" />
         },
         },
@@ -53,19 +36,10 @@ export function AdminParentList() {
         },
         },
         {
-        accessorKey: "date_of_birth",
-        header: "Date Birth",
-        cell: ({ row }) => {  
-            const date =  row.getValue("date_of_birth");
-            const formatted = new Date(date).toLocaleDateString() 
-            return <>{formatted}</>
+        accessorKey: "email",
+        header: ({ column }) => {
+            return <DataTableColumnHeader column={column} title="Email" />
         },
-        /* hna had cell tat7awal biha l format dial les données li f database l format li bghiti tban f l'affichage 
-        par ex : hna date tayjina twil w fih time hna chdina date w rja3nah d/m/y
-        mais had l9adia galik matadarch hna hadchi dial t7awal les données l chkal li bghiti taydar f Resource
-        ay ghaydar f StudentParentResource f la methode toarray tema ghatchad les values li jayin mn api 
-        w tradhom ki bghiti w tssefthom direct l table mais ta hada tayb9a 7al monasibe 
-        */
         },
         {
         accessorKey: "gender",
@@ -75,25 +49,19 @@ export function AdminParentList() {
             const gender = value === "m" ? "Male" : "Female"
             return <>{gender}</>
         }
+        },    
+        {
+        accessorKey: "blood_type",
+        header: "Blood Type",
         },
         {
-        accessorKey: "email",
-        header: ({ column }) => {
-            return <DataTableColumnHeader column={column} title="Email" />
+        accessorKey: "date_of_birth",
+        header: "Date Birth",
+        cell: ({ row }) => {  
+            const date =  row.getValue("date_of_birth");
+            const formatted = new Date(date).toLocaleDateString()
+            return <>{formatted}</>
         },
-
-        },
-        {
-        accessorKey: "phone",
-        header: "Phone",
-        cell: ({ row }) => {
-            const phone = parseFloat(row.getValue("phone"))
-            return <>+212{phone}</>
-        },
-        },
-        {
-        accessorKey: "address",
-        header: "Address",
         },
         {
         accessorKey: "updated_at",
@@ -103,18 +71,14 @@ export function AdminParentList() {
         },
         cell: ({ row }) => {
             const date =  row.getValue("updated_at");
-            const formatted = new Date(date).toDateString() +" "+ new Date(date).toLocaleTimeString()
-            return <>{formatted}</>
+            // const formatted = new Date(date).toDateString() +" "+ new Date(date).toLocaleTimeString()
+            return <>{date}</>
         }
         },
         {
         id: "actions",
         header: "Actions",
         cell: ({ row }) => {   
-
-            // hna had row.original tayjib ga3 les infos dial dak student aprés ghanakhdo ghir id bach ndiro delete
-            // const data = row.original;
-            // console.log(data);
 
             const {id,firstname,lastname} = row.original
             const [openUpdateForm,setOpenUpdateForm] = useState(false);
@@ -127,15 +91,23 @@ export function AdminParentList() {
                         </SheetTrigger>
                         <SheetContent className="py-2">
                             <SheetHeader>
-                                <SheetTitle>Update Parent :</SheetTitle>
+                                <SheetTitle>Update Student :</SheetTitle>
                             </SheetHeader>
-                            <ParentForm values={row.original} 
+                            <StudentForm values={row.original} 
                                 handleSubmitForm={(values) => {
-                                    const promise =  ParentApi.update(id,values);
-                                    promise.then(() => {
-                                    setOpenUpdateForm(false);
-                                    getParent();
+                                    const promise =  StudentApi.update(id,values);
+                                    promise.then((response) => {
+                                        const {student} = response.data;
+                                        const elements = data.map((s) => {
+                                            if(s.id == id) {
+                                                return student;
+                                            }
+                                            return s;
+                                        })
+                                        setOpenUpdateForm(false);
+                                        setData(elements);
                                     });
+
                                     return promise;
                                 }}
                             />
@@ -162,16 +134,13 @@ export function AdminParentList() {
                                 
                                 const deletingLoader = toast.loading("Deleting in progress.");
 
-                                const {status} = await ParentApi.delete(id);
+                                const {status} = await StudentApi.delete(id);
                                                         
                                 if(status == "200") {
                                     toast.dismiss(deletingLoader);
 
-                                    setData( data.filter((parent) => parent.id !== id));
-                                    toast.success("Success ",{
-                                        description : <span className="text-white font-medium">
-                                            {`Parent " ${firstname} ${lastname} " Deleted Successfully`}
-                                        </span>,
+                                    setData( data.filter((student) => student.id !== id));
+                                    toast.success("Success : Student Deleted Successfully",{
                                         duration : 3000,
                                         style : {
                                             backgroundColor: '#15803d',
@@ -180,8 +149,7 @@ export function AdminParentList() {
                                     });
                                 }
                                 else {
-                                    toast("Error ",{
-                                        description : <span className="text-white font-medium">Failed To Delete This Parent</span>,
+                                    toast("Error : Failed To Delete This Student",{
                                         icon : <XCircleIcon/>,
                                         duration : 3000,
                                         style : {
@@ -204,18 +172,18 @@ export function AdminParentList() {
 
     const [data,setData] = useState([]);
 
-    const getParent = () => {
-        ParentApi.all().then( ({data}) => {
+    const getStudent = () => {
+        StudentApi.all().then( ({data}) => {
             // console.log(data.data);
             setData(data.data);
         });
     } 
 
     useEffect(() => {
-        getParent()
+        getStudent()
     },[])
 
     return  <>
-                <DataTable columns={AdminParentColumns} data={data} />
+                <DataTable columns={AdminStudentColumns} data={data} />
             </>
 }
